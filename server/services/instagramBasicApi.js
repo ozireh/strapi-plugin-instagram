@@ -106,6 +106,16 @@ module.exports = ({ strapi }) => ({
             publishedAt: new Date(),
           },
         });
+      } else {
+        // update originalUrl, caption, timestamp
+        const entry = await strapi.db.query(dbImageName).update({
+          where: { instagramId: image.id },
+          data: {
+            originalUrl: image.url,
+            timestamp: image.timestamp,
+            caption: image.caption,
+          },
+        })
       }
     }
   },

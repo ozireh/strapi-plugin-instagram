@@ -12,7 +12,6 @@ const dbImageName = 'plugin::instagram.instaimage';
 
 module.exports = ({ strapi }) => ({
   async downloadAlbum(parent, token) {
-    console.log('Check downloadAlbum')
     const album = await fetchInstagram.callInstagramGraph(
       `/${parent.id}/children`,
       {
@@ -37,7 +36,6 @@ module.exports = ({ strapi }) => ({
   },
 
   async downloadImages(force = false) {
-    console.log('Check downloadImages')
     const settings = await getPluginSettings();
     const token =
       settings.shortLivedAccessToken || settings.longLivedAccessToken;

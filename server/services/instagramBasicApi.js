@@ -76,13 +76,20 @@ module.exports = ({ strapi }) => ({
         });
       } else if (element.media_type == 'CAROUSEL_ALBUM') {
         const album = await this.downloadAlbum(element, token);
-        images = images.concat(album);
+        const firstImage = album?.[0];
+        if (firstImage) {
+          images.push({
+            ...firstImage
+          })
+        }
       }
     }
     await this.insertImagesToDatabase(images);
     settings.lastDownloadTime = new Date();
     await setPluginSettings(settings);
-    return images;
+
+    const sortedImages = images.sort((a, b) => b.timestamp - a.timestamp);
+    return sortedImages;
   },
 
   async isImageExists(image) {
